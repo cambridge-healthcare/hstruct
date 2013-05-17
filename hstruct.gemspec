@@ -4,11 +4,11 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "hstruct"
-  spec.version       = "0.1.0"
+  spec.version       = "0.1.1"
   spec.authors       = ["Gerhard Lazu"]
   spec.email         = ["gerhard@lazu.co.uk"]
-  spec.description   = %q{Ruby Struct with the convenience of instantiating from a hash.}
-  spec.summary       = %q{When you care about speed, this is the Ruby structure that you've been looking for.}
+  spec.description   = %q{Struct with the convenience of instantiating from a Hash}
+  spec.summary       = %q{When you care about speed and convenience, this is what you've been looking for}
   spec.homepage      = "https://github.com/cambridge-healthcare/hstruct"
   spec.license       = "MIT"
 

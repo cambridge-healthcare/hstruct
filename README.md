@@ -1,4 +1,4 @@
-Ruby Struct with the convenience of instantiating from a hash.
+Struct with the convenience of instantiating from a Hash.
 
 When you care about speed, this is the Ruby structure that you've been
 looking for. HStructs are faster than any other gem out there, but still
