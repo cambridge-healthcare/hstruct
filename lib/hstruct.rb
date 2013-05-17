@@ -1,6 +1,6 @@
 class HStruct < Struct
-  def initialize(args)
-    super(*members.map { |m| args[m] })
+  def initialize(args = nil)
+    super(*members.map { |m| args[m] }) if args
   end
 
   def to_hash

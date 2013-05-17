@@ -9,6 +9,10 @@ describe HStruct do
     Person.ancestors.should include Struct
   end
 
+  it "can be instantiated with no arguments" do
+    expect { Person.new }.to_not raise_error(ArgumentError)
+  end
+
   it "can be instantiated from hash" do
     person = Person.new(:first_name => "Jimmy")
     person.first_name.should eql "Jimmy"
