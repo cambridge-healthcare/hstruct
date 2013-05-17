@@ -2,9 +2,9 @@ Ruby Struct with the convenience of instantiating from a hash.
 
 When you care about speed, this is the Ruby structure that you've been
 looking for. HStructs are faster than any other gem out there, but still
-only half as fast as when compared to a Class with arguments as a hash.
-To make up for that, you will end up writing less code and you will get
-a to_hash method by default (no, you don't have to be running Ruby 2.0).
+only half as fast as when compared to a Class with hash arguments.
+To make up for it, you will end up writing less code and you will get
+a `to_hash` method by default (no, you don't have to be running Ruby 2.0).
 
 ```ruby
 class ClassWithArgsHash
