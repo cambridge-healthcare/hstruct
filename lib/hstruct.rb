@@ -4,6 +4,6 @@ class HStruct < Struct
   end
 
   def to_hash
-    Hash[each_pair.reject { |k, v| v.nil? }.to_a]
+    Hash[each_pair.to_a]
   end
 end
