@@ -1,4 +1,4 @@
-![travis](https://secure.travis-ci.org/cambridge-healthcare/hstruct.png)
+[![travis](https://secure.travis-ci.org/cambridge-healthcare/hstruct.png)](https://travis-ci.org/cambridge-healthcare/hstruct)
 
 Struct with the convenience of instantiating from a Hash.
 
@@ -10,14 +10,13 @@ a `to_h` method by default (no, you don't have to be running Ruby 2.0).
 
 ```ruby
 class ClassWithArgsHash
-  attr_reader :foo, :bar, :baz, :qux, :quux
+  attr_reader :foo, :bar, :baz, :qux
 
   def initialize(args)
     @foo  = args[:foo]
     @bar  = args[:bar]
     @baz  = args[:baz]
     @qux  = args[:qux]
-    @quux = args[:quux]
   end
 end
 
@@ -26,7 +25,7 @@ end
 And this is the HStruct equivalent:
 
 ```ruby
-MyHStruct = HStruct.new(:foo, :bar, :baz, :qux, :quux)
+MyHStruct = HStruct.new(:foo, :bar, :baz, :qux)
 ```
 
 If you're thinking about setting the class instance variables
