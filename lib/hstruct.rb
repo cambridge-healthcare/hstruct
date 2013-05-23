@@ -6,4 +6,5 @@ class HStruct < Struct
   def to_h
     Hash[each_pair.to_a]
   end
+  alias_method :to_hash, :to_h
 end

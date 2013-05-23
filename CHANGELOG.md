@@ -1,3 +1,8 @@
+### v0.5.0
+
+* to_h deprecates to_hash method, should serve as a reminder about Ruby
+  2.0. Thanks @bestie!
+
 ### v0.4.0
 
 * leaving empty values out when converting to a hash was too intrusive.
