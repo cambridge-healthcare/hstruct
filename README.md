@@ -1,4 +1,4 @@
-[![travis](https://secure.travis-ci.org/cambridge-healthcare/hstruct.png)]
+![travis](https://secure.travis-ci.org/cambridge-healthcare/hstruct.png)
 
 Struct with the convenience of instantiating from a Hash.
 
