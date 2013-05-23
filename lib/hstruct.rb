@@ -3,7 +3,7 @@ class HStruct < Struct
     super(*members.map { |m| args[m] }) if args
   end
 
-  def to_hash
+  def to_h
     Hash[each_pair.to_a]
   end
 end

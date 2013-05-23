@@ -26,7 +26,7 @@ describe "Person defined from an HStruct" do
 
     describe "when converting back to a hash" do
       it "includes empty values" do
-        person.to_hash.must_equal Hash[:first_name => "Jimmy", :last_name => nil]
+        person.to_h.must_equal Hash[:first_name => "Jimmy", :last_name => nil]
       end
     end
   end
