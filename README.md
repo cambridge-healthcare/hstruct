@@ -4,7 +4,7 @@ When you care about speed, this is the Ruby structure that you've been
 looking for. HStructs are faster than any other gem out there, but still
 only half as fast as when compared to a Class with hash arguments.
 To make up for it, you will end up writing less code and you will get
-a `to_hash` method by default (no, you don't have to be running Ruby 2.0).
+a `to_h` method by default (no, you don't have to be running Ruby 2.0).
 
 ```ruby
 class ClassWithArgsHash
@@ -69,7 +69,7 @@ end
 => 88
 [5] pry(main)> heart_rate.timestamp
 => 1368786389
-[6] pry(main)> heart_rate.to_hash
+[6] pry(main)> heart_rate.to_h
 => {:patient_id=>1, :bpm=>88, :timestamp=>1368786389}
 ```
 
