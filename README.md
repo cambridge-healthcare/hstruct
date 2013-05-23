@@ -1,3 +1,5 @@
+[![travis](https://secure.travis-ci.org/cambridge-healthcare/hstruct.png)]
+
 Struct with the convenience of instantiating from a Hash.
 
 When you care about speed, this is the Ruby structure that you've been
