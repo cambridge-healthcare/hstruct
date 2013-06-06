@@ -49,6 +49,12 @@ hash = {
   :qux  => 4,
 }
 
+#require 'attr_extras'
+#class AttrExtrasClass
+  #attr_initialize [:foo, :bar, :baz, :qux]
+  #attr_reader :foo, :bar, :baz, :qux
+#end
+
 # All benchmarks were run on:
 # * ruby 1.9.3p392 (2013-02-22 revision 39386) [x86_64-darwin12.3.0]
 # * Intel i7 2.2Ghz (MBP 8,2)
@@ -81,6 +87,11 @@ Benchmark.ips(runs) do |x|
     }
   end
 
+  # 200k/s
+  #x.report('Class AttrExtras') do
+    #AttrExtrasClass.new(hash)
+  #end
+
   # 385k/s
   x.report('Class Hash Args') do
     HashArgsClass.new(hash)
@@ -104,4 +115,5 @@ end
 # FastOpenStruct => 30k/s
 # Hashie::Dash   => 35k/s
 # Hashie MI & MA => 100k/s
-
+# AttrExtras     => 200k/s
+#
