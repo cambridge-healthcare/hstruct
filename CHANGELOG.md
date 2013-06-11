@@ -1,6 +1,14 @@
+### v0.6.0
+
+* Support for hashes with string keys. We came across this problem when
+  persisting a hash with symbol keys and were getting back string keys.
+  Thanks @bestie!
+
+* removed `to_hash`
+
 ### v0.5.0
 
-* to_h deprecates to_hash method, should serve as a reminder about Ruby
+* `to_h` deprecates `to_hash` method, should serve as a reminder about Ruby
   2.0. Thanks @bestie!
 
 ### v0.4.0
