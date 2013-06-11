@@ -59,10 +59,6 @@ describe "Person defined from an HStruct" do
       it "includes empty values" do
         person.to_h.must_equal Hash[:first_name => "Jimmy", :last_name => nil]
       end
-
-      it "to_hash alias" do
-        person.to_h.must_equal person.to_hash
-      end
     end
   end
 end
