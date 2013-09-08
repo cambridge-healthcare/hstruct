@@ -1,6 +1,8 @@
 [![travis](https://secure.travis-ci.org/cambridge-healthcare/hstruct.png)](https://travis-ci.org/cambridge-healthcare/hstruct)
+[![Code Climate](https://codeclimate.com/github/cambridge-healthcare/hstruct.png)](https://codeclimate.com/github/cambridge-healthcare/hstruct)
+# HStruct
 
-Struct with the convenience of instantiating from a Hash.
+Ruby structs with the convenience of instantiating from a Hash.
 
 When you care about speed, this is the Ruby structure that you've been
 looking for. HStructs are faster than any other gem out there, but still
