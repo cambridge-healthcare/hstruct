@@ -42,6 +42,17 @@ class HashArgsClass
   end
 end
 
+class HashArgsFetchClass
+  attr_reader :foo, :bar, :baz, :qux
+
+  def initialize(args)
+    @foo  = args.fetch(:foo)
+    @bar  = args.fetch(:bar)
+    @baz  = args.fetch(:baz)
+    @qux  = args.fetch(:qux)
+  end
+end
+
 hash = {
   :foo  => 1,
   :bar  => 2,
@@ -49,35 +60,29 @@ hash = {
   :qux  => 4,
 }
 
-#require 'attr_extras'
-#class AttrExtrasClass
-  #attr_initialize [:foo, :bar, :baz, :qux]
-  #attr_reader :foo, :bar, :baz, :qux
-#end
-
 # All benchmarks were run on:
-# * ruby 1.9.3p392 (2013-02-22 revision 39386) [x86_64-darwin12.3.0]
+# * ruby 1.9.3p448 (2013-06-27 revision 41675) [x86_64-darwin12.4.0]
 # * Intel i7 2.2Ghz (MBP 8,2)
 
 runs = ENV.fetch('RUNS', 5).to_i
 
 Benchmark.ips(runs) do |x|
-  # 14k/s
+  # 25k/s
   x.report('OpenStruct') do
     OpenStruct.new(hash)
   end
 
-  # 80k/s
+  # 235k/s
   x.report('Class Clever') do
     CleverClass.new(hash)
   end
 
-  # 185k/s
+  # 320k/s
   x.report('HStruct') do
     PlainHStruct.new(hash)
   end
 
-  # 380k/s
+  # 610k/s
   x.report('Hash') do
     hash = {
       :foo  => 1,
@@ -87,28 +92,29 @@ Benchmark.ips(runs) do |x|
     }
   end
 
-  # 200k/s
-  #x.report('Class AttrExtras') do
-    #AttrExtrasClass.new(hash)
-  #end
+  # 750k/s
+  x.report('Class Hash Args Fetch') do
+    HashArgsFetchClass.new(hash)
+  end
 
-  # 385k/s
+  # 1000k/s
   x.report('Class Hash Args') do
     HashArgsClass.new(hash)
   end
 
-  # 470k/s
+  # 1200k/s
   x.report('Class Plain') do
     SimpleClass.new(1, 2, 3, 4)
   end
 
-  # 620k/s
+  # 1500k/s
   x.report('Struct') do
     PlainStruct.new(1, 2, 3, 4)
   end
 end
 
 ### This is how some of the more popular gems compare to the above:
+# * ruby 1.9.3p392 (2013-02-22 revision 39386) [x86_64-darwin12.3.0]
 #
 # Virtus         => 12k/s (no coercions) & 17k/s (coercions)
 # Hashr          => 20k/s
@@ -116,4 +122,3 @@ end
 # Hashie::Dash   => 35k/s
 # Hashie MI & MA => 100k/s
 # AttrExtras     => 200k/s
-#
