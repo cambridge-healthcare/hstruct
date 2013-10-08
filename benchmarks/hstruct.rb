@@ -1,88 +1,49 @@
 require 'benchmark/ips'
 require 'pry'
 
-# OpenStruct
-require 'ostruct'
-
-# Struct
-PlainStruct = Struct.new(:foo, :bar, :baz, :qux)
-
-# HStruct
-require_relative '../lib/hstruct'
-PlainHStruct = HStruct.new(:foo, :bar, :baz, :qux)
-
-# Class
-class SimpleClass
-  attr_reader :foo, :bar, :baz, :qux
-
-  def initialize(foo, bar, baz, qux)
-    @foo = foo
-    @bar = bar
-    @baz = baz
-    @qux = qux
-  end
-end
-
-class CleverClass
-  attr_reader :foo, :bar, :baz, :qux
-
-  def initialize(args)
-    args.each { |k, v| instance_variable_set("@#{k}", v) }
-  end
-end
-
-class HashArgsClass
-  attr_reader :foo, :bar, :baz, :qux
-
-  def initialize(args)
-    @foo  = args[:foo]
-    @bar  = args[:bar]
-    @baz  = args[:baz]
-    @qux  = args[:qux]
-  end
-end
-
-class HashArgsFetchClass
-  attr_reader :foo, :bar, :baz, :qux
-
-  def initialize(args)
-    @foo  = args.fetch(:foo)
-    @bar  = args.fetch(:bar)
-    @baz  = args.fetch(:baz)
-    @qux  = args.fetch(:qux)
-  end
-end
-
-hash = {
-  :foo  => 1,
-  :bar  => 2,
-  :baz  => 3,
-  :qux  => 4,
-}
-
 # All benchmarks were run on:
-# * ruby 1.9.3p448 (2013-06-27 revision 41675) [x86_64-darwin12.4.0]
+# * ruby ruby 2.0.0p247 (2013-06-27 revision 41674) [x86_64-darwin12.4.0]
 # * Intel i7 2.2Ghz (MBP 8,2)
+#
+#              Struct     56540 i/100ms
+#               Class     50819 i/100ms
+#                Hash     49196 i/100ms
+#            HashArgs     48080 i/100ms
+#       HashArgsFetch     44130 i/100ms
+#             HStruct     22923 i/100ms
+# InstanceVariableSet     17797 i/100ms
+#          AttrExtras     16225 i/100ms
+#          OpenStruct      3033 i/100ms
 
-runs = ENV.fetch('RUNS', 5).to_i
+messages = ["\n"]
 
-Benchmark.ips(runs) do |x|
-  # 25k/s
-  x.report('OpenStruct') do
-    OpenStruct.new(hash)
+Benchmark.ips(ENV.fetch('RUNS', 1).to_i) do |x|
+  hash = {
+    :foo  => 1,
+    :bar  => 2,
+    :baz  => 3,
+    :qux  => 4,
+  }
+
+  PlainStruct = Struct.new(:foo, :bar, :baz, :qux)
+  x.report('Struct') do
+    PlainStruct.new(1, 2, 3, 4)
   end
 
-  # 235k/s
-  x.report('Class Clever') do
-    CleverClass.new(hash)
+  class SimpleClass
+    attr_reader :foo, :bar, :baz, :qux
+
+    def initialize(foo, bar, baz, qux)
+      @foo = foo
+      @bar = bar
+      @baz = baz
+      @qux = qux
+    end
+  end
+  x.report('Class') do
+    SimpleClass.new(1, 2, 3, 4)
   end
 
-  # 320k/s
-  x.report('HStruct') do
-    PlainHStruct.new(hash)
-  end
-
-  # 610k/s
   x.report('Hash') do
     hash = {
       :foo  => 1,
@@ -92,33 +53,68 @@ Benchmark.ips(runs) do |x|
     }
   end
 
-  # 750k/s
-  x.report('Class Hash Args Fetch') do
-    HashArgsFetchClass.new(hash)
+  class HashArgs
+    attr_reader :foo, :bar, :baz, :qux
+
+    def initialize(args)
+      @foo  = args[:foo]
+      @bar  = args[:bar]
+      @baz  = args[:baz]
+      @qux  = args[:qux]
+    end
+  end
+  x.report('HashArgs') do
+    HashArgs.new(hash)
   end
 
-  # 1000k/s
-  x.report('Class Hash Args') do
-    HashArgsClass.new(hash)
+  class HashArgsFetch
+    attr_reader :foo, :bar, :baz, :qux
+
+    def initialize(args)
+      @foo  = args.fetch(:foo)
+      @bar  = args.fetch(:bar)
+      @baz  = args.fetch(:baz)
+      @qux  = args.fetch(:qux)
+    end
+  end
+  x.report('HashArgsFetch') do
+    HashArgsFetch.new(hash)
   end
 
-  # 1200k/s
-  x.report('Class Plain') do
-    SimpleClass.new(1, 2, 3, 4)
+  require_relative '../lib/hstruct'
+  PlainHStruct = HStruct.new(:foo, :bar, :baz, :qux)
+  x.report('HStruct') do
+    PlainHStruct.new(hash)
   end
 
-  # 1500k/s
-  x.report('Struct') do
-    PlainStruct.new(1, 2, 3, 4)
+  class InstanceVariableSet
+    attr_reader :foo, :bar, :baz, :qux
+
+    def initialize(args)
+      args.each { |k, v| instance_variable_set("@#{k}", v) }
+    end
+  end
+  x.report('InstanceVariableSet') do
+    InstanceVariableSet.new(hash)
+  end
+
+  begin
+    require 'attr_extras'
+
+    class AttrExtrasClass
+      attr_initialize [:foo, :bar, :baz, :qux]
+    end
+    x.report('AttrExtras') do
+      AttrExtrasClass.new(hash)
+    end
+  rescue LoadError
+    messages << "Installing attr_extras gem will include it in the benchmarks"
+  end
+
+  require 'ostruct'
+  x.report('OpenStruct') do
+    OpenStruct.new(hash)
   end
 end
 
-### This is how some of the more popular gems compare to the above:
-# * ruby 1.9.3p392 (2013-02-22 revision 39386) [x86_64-darwin12.3.0]
-#
-# Virtus         => 12k/s (no coercions) & 17k/s (coercions)
-# Hashr          => 20k/s
-# FastOpenStruct => 30k/s
-# Hashie::Dash   => 35k/s
-# Hashie MI & MA => 100k/s
-# AttrExtras     => 200k/s
+puts messages
