@@ -16,11 +16,10 @@ class HStruct < Struct
   end
 
   def update(args={})
-    result = self.to_h
     raise ArgumentError unless args.is_a?(Enumerable)
     args.each do |(k,v)|
-      result[k.to_sym] = v
+      self[k.to_sym] = v
     end
-    self.class.new(result)
+    self
   end
 end
