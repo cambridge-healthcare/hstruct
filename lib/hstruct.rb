@@ -14,4 +14,13 @@ class HStruct < Struct
   def to_h
     Hash[each_pair.to_a]
   end
+
+  def update(args={})
+    result = self.to_h
+    raise ArgumentError unless args.is_a?(Enumerable)
+    args.each do |(k,v)|
+      result[k.to_sym] = v
+    end
+    self.class.new(result)
+  end
 end

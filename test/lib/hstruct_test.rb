@@ -61,5 +61,56 @@ describe "Person defined from an HStruct" do
       end
     end
   end
+
+  describe "updated from a hash" do
+    describe "with Symbol keys" do
+      let(:person_hash) { {
+          :first_name => "Jimmy",
+      } }
+      let(:updated_person_hash) { {
+          :first_name => "Laura",
+      } }
+
+      let(:person) { Person.new(person_hash) }
+      let(:updated_person) { person.update(updated_person_hash) }
+
+      it "first name" do
+        updated_person.first_name.must_equal "Laura"
+      end
+
+      it "last name" do
+        updated_person.last_name.must_equal nil
+      end
+    end
+
+    describe "with String keys" do
+      let(:person_hash) { {
+          "first_name" => "Alex",
+      } }
+      let(:updated_person_hash) { {
+          "first_name" => "Elise",
+      } }
+
+      let(:person) { Person.new(person_hash) }
+      let(:updated_person) { person.update(updated_person_hash) }
+
+      it "first name" do
+        updated_person.first_name.must_equal "Elise"
+      end
+
+      it "last name" do
+        updated_person.last_name.must_equal nil
+      end
+    end
+
+    describe "when converting back to a hash" do
+      let(:person) { Person.new( :first_name => "Jimmy" ) }
+      let(:updated_person) { person.update( :first_name => "Laura" ) }
+
+      it "includes empty values" do
+        updated_person.to_h.must_equal Hash[:first_name => "Laura", :last_name => nil]
+      end
+    end
+  end
 end
 
