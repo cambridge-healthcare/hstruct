@@ -1,6 +1,7 @@
 class HStruct < Struct
   def initialize(args = {})
     raise ArgumentError unless args.is_a?(Enumerable)
+
     unless args.keys.first.is_a?(Symbol)
       args = args.each_with_object({}) do |(k,v), result|
         result[k.to_sym] = v

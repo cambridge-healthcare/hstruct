@@ -19,6 +19,7 @@ describe "Person defined from an HStruct" do
 
     ->{ Person.new(not_enumerable) }.must_raise ArgumentError
   end
+
   describe "instantiated from a hash" do
     describe "with Symbol keys" do
       let(:person_hash) { {
