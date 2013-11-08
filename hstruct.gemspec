@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "hstruct"
-  spec.version       = "0.6.0"
+  spec.version       = "0.7.0"
   spec.authors       = ["Gerhard Lazu", "Stephen Best"]
   spec.email         = ["gerhard@lazu.co.uk", "bestie@gmail.com"]
   spec.description   = %q{Struct with the convenience of instantiating from a Hash}
